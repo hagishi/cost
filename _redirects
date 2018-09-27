@@ -1,1 +1,1 @@
-/api http://kakumei.jp/api  200
+/api/* http://kakumei.jp/api/:splat

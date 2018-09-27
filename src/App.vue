@@ -88,7 +88,7 @@ export default class App extends Vue {
       default:
         break;
     }
-    return Math.floor(mprice)
+    return mprice.toFixed(2)
   }
 }
 </script>

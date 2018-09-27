@@ -55,7 +55,7 @@ export default class App extends Vue {
     this.rows = await this.api.getAwsCost('/api/aws/ec2');
   }
 
-  public ysort(o) {
+  public ysort(o: any) {
     return Number(o.price.USD);
   }
 

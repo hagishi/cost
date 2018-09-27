@@ -2,6 +2,7 @@
   <div id="app">
     <h1>為替: {{ yen }} / 1ドル</h1>
 
+    <h2>EC2</h2>
     <div>
       <p> <input type="text" @input="filter"/></p>
     </div>

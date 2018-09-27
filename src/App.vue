@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <h1>為替: {{ yen }} / 1ドル</h1>
-
     <h2>EC2</h2>
     <div class="form">
       <p><input type="text" class="input" @input="filter" placeholder="price"/></p>
@@ -69,7 +68,6 @@ export default class App extends Vue {
 
   public priceFilter(v: any) {
     const price = Number(v.price.USD) * Number(this.yen) * this.times[this.option]
-    console.log(price, this.value);
     return price < Number(this.value);
   }
 

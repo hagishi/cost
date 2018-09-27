@@ -3,8 +3,12 @@
     <h1>為替: {{ yen }} / 1ドル</h1>
 
     <h2>EC2</h2>
-    <div>
-      <p> <input type="text" @input="filter"/></p>
+    <div class="form">
+      <p><input type="text" class="input" @input="filter" placeholder="price"/></p>
+        <p class="op"><select class="input" @change="filterPrice">
+            <option :value="index" v-for="(option, index) in options" :key="index">{{ option }}</option>
+          </select>
+        </p>
     </div>
 
     <table>
@@ -43,6 +47,9 @@ export default class App extends Vue {
   public api: API 
   public rows: any[] = []
   public value: string = '';
+  public options = ['hour', 'day', 'month']
+  public times = [1, 24, 720];
+  public option = 0
 
   constructor() {
     super();
@@ -60,18 +67,25 @@ export default class App extends Vue {
     return Number(o.price.USD);
   }
 
+  public priceFilter(v: any) {
+    const price = Number(v.price.USD) * Number(this.yen) * this.times[this.option]
+    console.log(price, this.value);
+    return price < Number(this.value);
+  }
+
   get filterRows () {
     if (!this.value) {
       return _.sortBy(this.rows, [this.ysort]);
     }
-    return _.sortBy(this.rows.filter(v => {
-      const x = Number(v.price.USD) * Number(this.yen)
-      return x < Number(this.value);
-    }), [this.ysort]);
+    return _.sortBy(this.rows.filter(this.priceFilter), [this.ysort]);
   }
 
   public filter(e: any) {
     this.value = e.target.value
+  }
+
+  public filterPrice(e:any) {
+    this.option = e.target.value
   }
 
   public money(type: string, price: string) {
@@ -97,6 +111,20 @@ export default class App extends Vue {
 <style lang="scss">
 #app {
   font-size: 13px;
+}
+.form {
+  display: flex;
+  align-items: center;
+}
+.op {
+  margin: 0 0 0 10px;
+}
+
+.input {
+  height: 30px;
+  line-height: 30px;
+  width: 120px;
+  padding: 0 10px;
 }
 h1 {
   font-size: 18px;
